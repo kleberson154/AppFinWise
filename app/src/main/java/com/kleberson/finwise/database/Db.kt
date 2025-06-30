@@ -2,6 +2,7 @@ package com.kleberson.finwise.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteOpenHelper
+import com.kleberson.finwise.model.User
 
 class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
     override fun onCreate(db: android.database.sqlite.SQLiteDatabase) {
@@ -13,6 +14,26 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         db.execSQL("DROP TABLE IF EXISTS saldo")
         db.execSQL("DROP TABLE IF EXISTS atividades")
         onCreate(db)
+    }
+
+    fun checkUserExists(email: String): Boolean {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(email))
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+
+    fun insertUser(user: User) {
+        val db = writableDatabase
+        val values = android.content.ContentValues().apply {
+            put("name", user.name)
+            put("email", user.email)
+            put("password", user.password)
+            put("contact", user.contact)
+        }
+        db.insert("users", null, values)
+        db.close()
     }
 
 }
