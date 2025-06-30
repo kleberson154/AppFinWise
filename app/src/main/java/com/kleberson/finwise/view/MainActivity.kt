@@ -16,9 +16,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btnAddSaldo = findViewById<Button>(R.id.buttonAddSaldo)
+        val btnAddAtividade = findViewById<Button>(R.id.buttonAddAtividades)
 
         btnAddSaldo.setOnClickListener {
             startActivity(Intent(this, AddBalanceActivity::class.java))
+        }
+
+        btnAddAtividade.setOnClickListener {
+            startActivity(Intent(this, AddActivitiesActivity::class.java))
         }
     }
 }
