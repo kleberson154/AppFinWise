@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.kleberson.finwise.R
+import com.kleberson.finwise.controller.UserController
 
 class RegisterActivity: AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -27,8 +28,34 @@ class RegisterActivity: AppCompatActivity() {
 
 
         btnRegister.setOnClickListener {
-            // Handle registration logic here
-            // For example, validate inputs and send data to the server
+            if (fullName.text.isEmpty() || email.text.isEmpty() || numberTel.text.isEmpty() ||
+                password.text.isEmpty() || confirmPassword.text.isEmpty()) {
+                fullName.error = "Preencha todos os campos"
+                email.error = "Preencha todos os campos"
+                numberTel.error = "Preencha todos os campos"
+                password.error = "Preencha todos os campos"
+                confirmPassword.error = "Preencha todos os campos"
+            } else {
+                val userController = UserController(this)
+                val isRegistered = userController.registerUser(
+                    this,
+                    fullName.text.toString(),
+                    email.text.toString(),
+                    numberTel.text.toString(),
+                    password.text.toString(),
+                    confirmPassword.text.toString()
+                )
+                if (isRegistered) {
+                    val sharedPref = getSharedPreferences("finwise_prefs", MODE_PRIVATE)
+                    with(sharedPref.edit()) {
+                        putString("user_email", email.text.toString())
+                        putString("user_name", fullName.text.toString())
+                        apply()
+                    }
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+            }
         }
 
         linkLogin.setOnClickListener {
