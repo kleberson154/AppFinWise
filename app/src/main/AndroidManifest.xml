@@ -25,6 +25,7 @@
         <activity android:name=".view.LoginActivity" android:exported="true"/>
         <activity android:name=".view.RegisterActivity" android:exported="true"/>
         <activity android:name=".view.AddBalanceActivity" android:exported="true"/>
+        <activity android:name=".view.AddActivitiesActivity" android:exported="true"/>
     </application>
 
 </manifest>
