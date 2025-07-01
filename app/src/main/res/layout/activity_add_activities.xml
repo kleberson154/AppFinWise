@@ -44,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextInputBalance"
+            android:id="@+id/editTextInputPrice"
             android:layout_width="303dp"
             android:layout_height="46dp"
             android:layout_marginTop="16dp"
@@ -67,7 +67,7 @@
             android:text="$"
             android:textColor="@color/primary"
             android:textSize="34sp"
-            app:layout_constraintEnd_toStartOf="@+id/editTextInputBalance"
+            app:layout_constraintEnd_toStartOf="@+id/editTextInputPrice"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
         <Button
@@ -80,7 +80,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextInputBalance" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextInputPrice" />
 
         <TextView
             android:id="@+id/textView23"
@@ -95,7 +95,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextNameActivity"
             style="@style/EstiloEditText"
             android:layout_width="328dp"
             android:layout_height="46dp"
@@ -120,10 +120,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.166"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextNameActivity" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinnerTypeActivity"
             style="@style/EstiloEditText"
             android:layout_width="328dp"
             android:layout_height="46dp"
@@ -134,7 +134,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/spinnerSpentOrReceived"
             style="@style/EstiloEditText"
             android:layout_width="328dp"
             android:layout_height="46dp"
@@ -154,7 +154,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.17"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerSpentOrReceived" />
 
         <TextView
             android:id="@+id/textView26"
@@ -166,7 +166,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.173"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerTypeActivity" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
