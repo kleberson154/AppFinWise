@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.kleberson.finwise.database.Db
 import com.kleberson.finwise.exception.PasswordNotEqualsException
 import com.kleberson.finwise.exception.UserExistException
+import com.kleberson.finwise.exception.UserNotExistException
 import com.kleberson.finwise.model.User
 
 class UserController(context: Context) {
@@ -31,6 +32,31 @@ class UserController(context: Context) {
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             return false
         }catch (e: PasswordNotEqualsException) {
+            e.printStackTrace()
+            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            return false
+        }
+    }
+
+    fun loginUser(context: Context, email: String, password: String): Boolean {
+        val db = Db(context)
+        val userExists = db.checkUserExists(email)
+        val passwordMatches = db.verifyPassword(email ,password)
+
+        try {
+            if (!userExists) {
+                throw UserNotExistException("Usuário não encontrado")
+            }
+
+            if (!passwordMatches) {
+                throw PasswordNotEqualsException("Senha incorreta")
+            }
+            return true
+        } catch (e: UserNotExistException) {
+            e.printStackTrace()
+            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            return false
+        } catch (e: PasswordNotEqualsException) {
             e.printStackTrace()
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             return false
