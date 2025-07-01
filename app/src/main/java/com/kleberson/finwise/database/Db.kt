@@ -1,6 +1,7 @@
 package com.kleberson.finwise.database
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteOpenHelper
 import com.kleberson.finwise.model.User
@@ -62,6 +63,31 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         } else{
             cursor.close()
             return null
+        }
+    }
+
+    fun insertBalance(emailUser: String, value: Double): Boolean {
+        val db = writableDatabase
+        val cursor = db.rawQuery("SELECT id FROM users WHERE email = ?", arrayOf(emailUser))
+
+        if(cursor.moveToFirst()){
+            val idIndex = cursor.getColumnIndex("id")
+            if (idIndex != -1) {
+                val userId = cursor.getInt(idIndex)
+                val values = ContentValues().apply {
+                    put("balance", value)
+                }
+                cursor.close()
+                db.update("users", values, "id = ?", arrayOf(userId.toString()))
+                db.close()
+                return true
+            }else{
+                return false
+            }
+        } else {
+            cursor.close()
+            db.close()
+            return false
         }
     }
 }
