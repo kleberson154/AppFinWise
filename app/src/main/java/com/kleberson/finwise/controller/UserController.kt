@@ -62,4 +62,11 @@ class UserController(context: Context) {
             return false
         }
     }
+
+    fun getUserByEmail(context: Context,emailUser: String): User {
+        val db = Db(context)
+        val user = db.getUserByEmail(emailUser) ?: throw UserNotExistException("Usuário não encontrado")
+
+        return user
+    }
 }
