@@ -1,5 +1,6 @@
 package com.kleberson.finwise.database
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.sqlite.SQLiteOpenHelper
 import com.kleberson.finwise.model.User
@@ -44,4 +45,23 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         return exists
     }
 
+    @SuppressLint("Range")
+    fun getUserByEmail(emailUser: String): User? {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(emailUser))
+
+        if (cursor.moveToFirst()) {
+            val name = cursor.getString(cursor.getColumnIndex("name"))
+            val email = cursor.getString(cursor.getColumnIndex("email"))
+            val password = cursor.getString(cursor.getColumnIndex("password"))
+            val contact = cursor.getString(cursor.getColumnIndex("contact"))
+            val balance = cursor.getDouble(cursor.getColumnIndex("balance"))
+
+            cursor.close()
+            return User(name, email, password, contact, balance)
+        } else{
+            cursor.close()
+            return null
+        }
+    }
 }
