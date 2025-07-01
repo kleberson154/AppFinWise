@@ -9,7 +9,7 @@
     tools:context=".view.MainActivity">
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/textViewNameActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.217"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameActivity" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -45,7 +45,7 @@
         android:clipToOutline="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.819"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
+        app:layout_constraintStart_toEndOf="@+id/textViewNameActivity"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -62,14 +62,28 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleAtividades"
-            android:layout_width="346dp"
-            android:layout_height="463dp"
+            android:layout_width="319dp"
+            android:layout_height="390dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.056" />
+
+        <Button
+            android:id="@+id/buttonFinalizar"
+            android:layout_width="152dp"
+            android:layout_height="47dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/primary"
+            android:text="Sair"
+            android:textColor="@color/bg_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
