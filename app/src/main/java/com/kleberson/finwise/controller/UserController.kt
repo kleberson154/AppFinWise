@@ -69,4 +69,18 @@ class UserController(context: Context) {
 
         return user
     }
+
+    fun addBalance(context: Context, emailUser: String, value: Double) {
+        val db = Db(context)
+
+        try {
+            val user = db.insertBalance(emailUser, value)
+            if (!user) {
+                throw UserNotExistException("Usuário não encontrado")
+            }
+        }catch (e: UserNotExistException) {
+            e.printStackTrace()
+            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+        }
+    }
 }
