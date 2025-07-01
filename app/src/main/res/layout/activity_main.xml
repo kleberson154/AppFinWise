@@ -59,6 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonAddSaldo">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleAtividades"
             android:layout_width="346dp"
             android:layout_height="463dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -104,7 +105,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/textViewBalanceUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0,00"
@@ -180,7 +181,7 @@
         android:text="Adicionar Saldo"
         android:textColor="@color/text_color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBalanceUser" />
 
     <Button
         android:id="@+id/buttonAddAtividades"
