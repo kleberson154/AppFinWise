@@ -36,4 +36,12 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         db.close()
     }
 
+    fun verifyPassword(email: String, password: String): Boolean {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users WHERE email = ? AND password = ?", arrayOf(email, password))
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+
 }
