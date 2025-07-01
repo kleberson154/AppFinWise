@@ -9,9 +9,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kleberson.finwise.R
 import com.kleberson.finwise.controller.UserController
 import com.kleberson.finwise.util.FormatBalance
+import com.kleberson.finwise.util.VerticalSpaceItemDecoration
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId", "SetTextI18n")
@@ -38,6 +41,14 @@ class MainActivity : AppCompatActivity() {
 
         val btnAddSaldo = findViewById<Button>(R.id.buttonAddSaldo)
         val btnAddAtividade = findViewById<Button>(R.id.buttonAddAtividades)
+        val btnFinalizar = findViewById<Button>(R.id.buttonFinalizar)
+
+        val recycleActivities = findViewById<RecyclerView>(R.id.recycleAtividades)
+        recycleActivities.addItemDecoration(VerticalSpaceItemDecoration(16))
+        val atividades = userController.getActivitiesUser(this, emailUser)
+        val adapter = ActivityAdapter(atividades)
+        recycleActivities.layoutManager = LinearLayoutManager(this)
+        recycleActivities.adapter = adapter
 
         if (user.balance <= 0){
             btnAddSaldo.text = "Adicionar Saldo"
@@ -51,6 +62,23 @@ class MainActivity : AppCompatActivity() {
 
         btnAddAtividade.setOnClickListener {
             startActivity(Intent(this, AddActivitiesActivity::class.java).putExtra("email", emailUser))
+        }
+
+        btnFinalizar.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val emailUser = intent.getStringExtra("email")
+        if (emailUser != null) {
+            val userController = UserController(this)
+            val atividades = userController.getActivitiesUser(this, emailUser)
+            val adapter = ActivityAdapter(atividades)
+            val recycleActivities = findViewById<RecyclerView>(R.id.recycleAtividades)
+            recycleActivities.adapter = adapter
         }
     }
 }
