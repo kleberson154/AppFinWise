@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteOpenHelper
+import com.kleberson.finwise.model.Activity
 import com.kleberson.finwise.model.User
 import java.util.Date
 
@@ -105,5 +106,27 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         }
         db.insert("activities", null, values)
         db.close()
+    }
+
+    @SuppressLint("Range")
+    fun getActivitiesByUser(id: Int): List<Activity> {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM activities WHERE user_id = ?", arrayOf(id.toString()))
+        val activities = mutableListOf<Activity>()
+
+        if (cursor.moveToFirst()) {
+            do {
+                val idActivity = cursor.getInt(cursor.getColumnIndex("id"))
+                val name = cursor.getString(cursor.getColumnIndex("name"))
+                val category = cursor.getString(cursor.getColumnIndex("category"))
+                val type = cursor.getString(cursor.getColumnIndex("type"))
+                val price = cursor.getDouble(cursor.getColumnIndex("price"))
+                val date = Date(cursor.getString(cursor.getColumnIndex("date")))
+
+                activities.add(Activity(idActivity, name, category, type, price, date))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return activities
     }
 }

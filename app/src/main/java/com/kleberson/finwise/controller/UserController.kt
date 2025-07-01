@@ -6,6 +6,7 @@ import com.kleberson.finwise.database.Db
 import com.kleberson.finwise.exception.PasswordNotEqualsException
 import com.kleberson.finwise.exception.UserExistException
 import com.kleberson.finwise.exception.UserNotExistException
+import com.kleberson.finwise.model.Activity
 import com.kleberson.finwise.model.User
 
 class UserController(context: Context) {
@@ -95,5 +96,12 @@ class UserController(context: Context) {
             e.printStackTrace()
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun getActivitiesUser(context: Context, emailUser: String): List<Activity> {
+        val db = Db(context)
+        val user = db.getUserByEmail(emailUser) ?: throw UserNotExistException("Usuário não encontrado")
+
+        return db.getActivitiesByUser(user.id)
     }
 }
