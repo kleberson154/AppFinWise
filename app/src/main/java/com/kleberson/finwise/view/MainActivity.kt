@@ -14,12 +14,12 @@ import com.kleberson.finwise.controller.UserController
 import com.kleberson.finwise.util.FormatBalance
 
 class MainActivity : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val emailUser = intent.getStringExtra("email") ?: null
+        val emailUser = intent.getStringExtra("email")
         if (emailUser == null) {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
@@ -39,12 +39,18 @@ class MainActivity : AppCompatActivity() {
         val btnAddSaldo = findViewById<Button>(R.id.buttonAddSaldo)
         val btnAddAtividade = findViewById<Button>(R.id.buttonAddAtividades)
 
+        if (user.balance <= 0){
+            btnAddSaldo.text = "Adicionar Saldo"
+        }else {
+            btnAddSaldo.text = "Atualizar Saldo"
+        }
+
         btnAddSaldo.setOnClickListener {
-            startActivity(Intent(this, AddBalanceActivity::class.java))
+            startActivity(Intent(this, AddBalanceActivity::class.java).putExtra("email", emailUser))
         }
 
         btnAddAtividade.setOnClickListener {
-            startActivity(Intent(this, AddActivitiesActivity::class.java))
+            startActivity(Intent(this, AddActivitiesActivity::class.java).putExtra("email", emailUser))
         }
     }
 }
