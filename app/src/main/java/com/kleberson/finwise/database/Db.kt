@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteOpenHelper
 import com.kleberson.finwise.model.User
+import java.util.Date
 
 class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
     override fun onCreate(db: android.database.sqlite.SQLiteDatabase) {
@@ -99,7 +100,7 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
             put("category", activityType)
             put("type", activitySpentOrReceived)
             put("price", activityPrice)
-            put("date", System.currentTimeMillis().toString())
+            put("date", Date().toString())
             put("user_id", user.id)
         }
         db.insert("activities", null, values)
