@@ -67,7 +67,7 @@ class AddActivitiesActivity: AppCompatActivity() {
             )
 
             Toast.makeText(this, "Atividade adicionada com sucesso!", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java).putExtra("email", userEmail))
             finish()
         }
     }
