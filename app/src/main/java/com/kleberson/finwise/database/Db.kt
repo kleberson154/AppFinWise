@@ -1,7 +1,11 @@
 package com.kleberson.finwise.database
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteOpenHelper
+import com.kleberson.finwise.model.User
+import java.util.Date
 
 class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
     override fun onCreate(db: android.database.sqlite.SQLiteDatabase) {
@@ -15,4 +19,91 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         onCreate(db)
     }
 
+    fun checkUserExists(email: String): Boolean {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(email))
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+
+    fun insertUser(user: User) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("name", user.name)
+            put("email", user.email)
+            put("password", user.password)
+            put("contact", user.contact)
+        }
+        db.insert("users", null, values)
+        db.close()
+    }
+
+    fun verifyPassword(email: String, password: String): Boolean {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users WHERE email = ? AND password = ?", arrayOf(email, password))
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+
+    @SuppressLint("Range")
+    fun getUserByEmail(emailUser: String): User? {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(emailUser))
+
+        if (cursor.moveToFirst()) {
+            val idUser = cursor.getInt(cursor.getColumnIndex("id"))
+            val name = cursor.getString(cursor.getColumnIndex("name"))
+            val email = cursor.getString(cursor.getColumnIndex("email"))
+            val password = cursor.getString(cursor.getColumnIndex("password"))
+            val contact = cursor.getString(cursor.getColumnIndex("contact"))
+            val balance = cursor.getDouble(cursor.getColumnIndex("balance"))
+
+            cursor.close()
+            return User(idUser, name, email, password, contact, balance)
+        } else{
+            cursor.close()
+            return null
+        }
+    }
+
+    fun insertBalance(emailUser: String, value: Double): Boolean {
+        val db = writableDatabase
+        val cursor = db.rawQuery("SELECT id FROM users WHERE email = ?", arrayOf(emailUser))
+
+        if(cursor.moveToFirst()){
+            val idIndex = cursor.getColumnIndex("id")
+            if (idIndex != -1) {
+                val userId = cursor.getInt(idIndex)
+                val values = ContentValues().apply {
+                    put("balance", value)
+                }
+                cursor.close()
+                db.update("users", values, "id = ?", arrayOf(userId.toString()))
+                db.close()
+                return true
+            }else{
+                return false
+            }
+        } else {
+            cursor.close()
+            db.close()
+            return false
+        }
+    }
+
+    fun insertActivity(user: User, activityName: String, activityType: String, activitySpentOrReceived: String, activityPrice: Double) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("name", activityName)
+            put("category", activityType)
+            put("type", activitySpentOrReceived)
+            put("price", activityPrice)
+            put("date", Date().toString())
+            put("user_id", user.id)
+        }
+        db.insert("activities", null, values)
+        db.close()
+    }
 }
