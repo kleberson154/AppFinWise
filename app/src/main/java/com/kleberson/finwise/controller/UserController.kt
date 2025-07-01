@@ -23,7 +23,7 @@ class UserController(context: Context) {
                 throw PasswordNotEqualsException()
             }
 
-            val user = User(name = name, email = email, contact = contact, password = password)
+            val user = User(id = 0, name = name, email = email, contact = contact, password = password)
 
             db.insertUser(user)
             return true
@@ -79,6 +79,19 @@ class UserController(context: Context) {
                 throw UserNotExistException("Usuário não encontrado")
             }
         }catch (e: UserNotExistException) {
+            e.printStackTrace()
+            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun addActivity(context: Context, userEmail: String, activityName: String, activityType: String, activitySpentOrReceived: String, activityPrice: Double) {
+        val db = Db(context)
+
+        try {
+            val user = db.getUserByEmail(userEmail) ?: throw UserNotExistException("Usuário não encontrado")
+            db.insertActivity(user, activityName, activityType, activitySpentOrReceived, activityPrice)
+            Toast.makeText(context, "Atividade adicionada com sucesso!", Toast.LENGTH_SHORT).show()
+        } catch (e: UserNotExistException) {
             e.printStackTrace()
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
         }
