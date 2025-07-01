@@ -28,7 +28,7 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
 
     fun insertUser(user: User) {
         val db = writableDatabase
-        val values = android.content.ContentValues().apply {
+        val values = ContentValues().apply {
             put("name", user.name)
             put("email", user.email)
             put("password", user.password)
@@ -52,6 +52,7 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         val cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(emailUser))
 
         if (cursor.moveToFirst()) {
+            val idUser = cursor.getInt(cursor.getColumnIndex("id"))
             val name = cursor.getString(cursor.getColumnIndex("name"))
             val email = cursor.getString(cursor.getColumnIndex("email"))
             val password = cursor.getString(cursor.getColumnIndex("password"))
@@ -59,7 +60,7 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
             val balance = cursor.getDouble(cursor.getColumnIndex("balance"))
 
             cursor.close()
-            return User(name, email, password, contact, balance)
+            return User(idUser, name, email, password, contact, balance)
         } else{
             cursor.close()
             return null
@@ -89,5 +90,19 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
             db.close()
             return false
         }
+    }
+
+    fun insertActivity(user: User, activityName: String, activityType: String, activitySpentOrReceived: String, activityPrice: Double) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("name", activityName)
+            put("category", activityType)
+            put("type", activitySpentOrReceived)
+            put("price", activityPrice)
+            put("date", System.currentTimeMillis().toString())
+            put("user_id", user.id)
+        }
+        db.insert("activities", null, values)
+        db.close()
     }
 }
