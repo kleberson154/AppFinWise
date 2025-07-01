@@ -26,6 +26,7 @@ class RegisterActivity: AppCompatActivity() {
         val btnRegister = findViewById<Button>(R.id.buttonSignUp)
         val linkLogin = findViewById<TextView>(R.id.textViewLinkLogin)
 
+        val sharedPref = getSharedPreferences("finwise_prefs", MODE_PRIVATE)
 
         btnRegister.setOnClickListener {
             if (fullName.text.isEmpty() || email.text.isEmpty() || numberTel.text.isEmpty() ||
@@ -46,12 +47,8 @@ class RegisterActivity: AppCompatActivity() {
                     confirmPassword.text.toString()
                 )
                 if (isRegistered) {
-                    val sharedPref = getSharedPreferences("finwise_prefs", MODE_PRIVATE)
-                    with(sharedPref.edit()) {
-                        putString("user_email", email.text.toString())
-                        putString("user_name", fullName.text.toString())
-                        apply()
-                    }
+                    sharedPref.edit().putString("email", email.text.toString()).apply()
+                    sharedPref.edit().putString("password", password.text.toString()).apply()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
