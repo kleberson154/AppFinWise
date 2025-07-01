@@ -132,7 +132,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textViewGanhoPerda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -145,47 +145,37 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewNameUser" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/imageViewGanhoPerda"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginTop="28dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView19"
+        app:layout_constraintEnd_toStartOf="@+id/textViewGanhoPerda"
         app:layout_constraintTop_toBottomOf="@+id/textViewNameUser"
         app:srcCompat="@drawable/arrowup" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/textViewSignalGanhoPerda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="$"
+        android:text="+$"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        app:layout_constraintEnd_toStartOf="@+id/textViewGanhoPerdaValue"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGanhoPerda" />
 
     <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="108dp"
+        android:id="@+id/textViewGanhoPerdaValue"
+        android:layout_width="93dp"
+        android:layout_height="25dp"
         android:text="0,00"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        app:layout_constraintHorizontal_bias="0.839"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGanhoPerda" />
 
     <Button
         android:id="@+id/buttonAddSaldo"
@@ -209,7 +199,7 @@
         android:text="Adicionar Atividades"
         android:textColor="@color/text_color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewGanhoPerdaValue" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

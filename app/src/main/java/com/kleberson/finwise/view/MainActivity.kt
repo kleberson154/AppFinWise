@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +50,37 @@ class MainActivity : AppCompatActivity() {
         val adapter = ActivityAdapter(atividades)
         recycleActivities.layoutManager = LinearLayoutManager(this)
         recycleActivities.adapter = adapter
+
+        val imageGanhoPerda = findViewById<ImageView>(R.id.imageViewGanhoPerda)
+        val textGanhoPerda = findViewById<TextView>(R.id.textViewGanhoPerda)
+        val signalGanhoPerda = findViewById<TextView>(R.id.textViewSignalGanhoPerda)
+        val valueGanhoPerda = findViewById<TextView>(R.id.textViewGanhoPerdaValue)
+
+        var valueAtividades = 0.0
+
+        for (atividade in atividades){
+            if (atividade.type == "Gasto") {
+                valueAtividades -= atividade.price
+            } else {
+                valueAtividades += atividade.price
+            }
+        }
+
+        if (valueAtividades >= 0){
+            imageGanhoPerda.setImageResource(R.drawable.arrowup)
+            textGanhoPerda.text = "Lucros"
+            signalGanhoPerda.text = "+$"
+            signalGanhoPerda.setTextColor(resources.getColor(R.color.text_color))
+            valueGanhoPerda.text = formatBalance.format(valueAtividades)
+            valueGanhoPerda.setTextColor(resources.getColor(R.color.text_color))
+        } else if (valueAtividades < 0) {
+            imageGanhoPerda.setImageResource(R.drawable.arrowdown)
+            textGanhoPerda.text = "Perdas"
+            signalGanhoPerda.text = "-$"
+            signalGanhoPerda.setTextColor(resources.getColor(R.color.negative))
+            valueGanhoPerda.text = formatBalance.format(valueAtividades * -1)
+            valueGanhoPerda.setTextColor(resources.getColor(R.color.negative))
+        }
 
         if (user.balance <= 0){
             btnAddSaldo.text = "Adicionar Saldo"
