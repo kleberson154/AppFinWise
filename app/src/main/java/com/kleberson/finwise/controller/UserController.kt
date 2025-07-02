@@ -40,7 +40,6 @@ class UserController(context: Context) {
     }
 
     fun loginUser(context: Context, email: String, password: String): Boolean {
-        val db = Db(context)
         val userExists = db.checkUserExists(email)
         val passwordMatches = db.verifyPassword(email ,password)
 
@@ -64,16 +63,13 @@ class UserController(context: Context) {
         }
     }
 
-    fun getUserByEmail(context: Context,emailUser: String): User {
-        val db = Db(context)
+    fun getUserByEmail(emailUser: String): User {
         val user = db.getUserByEmail(emailUser) ?: throw UserNotExistException("Usuário não encontrado")
 
         return user
     }
 
     fun addBalance(context: Context, emailUser: String, value: Double) {
-        val db = Db(context)
-
         try {
             val user = db.insertBalance(emailUser, value)
             if (!user) {
@@ -86,8 +82,6 @@ class UserController(context: Context) {
     }
 
     fun addActivity(context: Context, userEmail: String, activityName: String, activityType: String, activitySpentOrReceived: String, activityPrice: Double) {
-        val db = Db(context)
-
         try {
             val user = db.getUserByEmail(userEmail) ?: throw UserNotExistException("Usuário não encontrado")
             db.insertActivity(user, activityName, activityType, activitySpentOrReceived, activityPrice)
@@ -98,10 +92,27 @@ class UserController(context: Context) {
         }
     }
 
-    fun getActivitiesUser(context: Context, emailUser: String): List<Activity> {
-        val db = Db(context)
+    fun getActivitiesUser(emailUser: String): MutableList<Activity> {
         val user = db.getUserByEmail(emailUser) ?: throw UserNotExistException("Usuário não encontrado")
 
         return db.getActivitiesByUser(user.id)
+    }
+
+    fun deleteActivity(activity: Activity, context: Context) {
+        try {
+            db.deleteActivity(activity)
+            Toast.makeText(context, "Atividade removida com sucesso!", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Erro ao remover atividade: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun saveUserImage(emailUser: String?, imageBytes: ByteArray) {
+        db.saveUserImage(emailUser, imageBytes)
+    }
+
+    fun getUserImage(emailUser: String): ByteArray {
+        return db.getUserImage(emailUser) ?: ByteArray(0)
     }
 }

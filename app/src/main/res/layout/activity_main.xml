@@ -37,12 +37,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewNameActivity" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageViewPerfil"
         android:layout_width="43dp"
         android:layout_height="42dp"
         android:layout_marginTop="36dp"
         android:background="@drawable/rounded_corners_inputs"
         android:clipToOutline="true"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.819"
         app:layout_constraintStart_toEndOf="@+id/textViewNameActivity"
@@ -95,7 +96,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.209"
+        app:layout_constraintHorizontal_bias="0.218"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewNameUser" />
 
@@ -104,16 +105,18 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textViewNameUser"
         app:srcCompat="@drawable/iconsdinheiro" />
 
     <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
+        android:id="@+id/textViewSignalSaldo"
+        android:layout_width="21dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="56dp"
         android:text="$"
+        android:textAlignment="textEnd"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -128,7 +131,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintStart_toEndOf="@+id/textViewSignalSaldo"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <TextView

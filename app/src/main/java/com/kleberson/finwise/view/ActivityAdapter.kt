@@ -6,19 +6,26 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kleberson.finwise.R
+import com.kleberson.finwise.controller.UserController
 import com.kleberson.finwise.model.Activity
 import com.kleberson.finwise.util.FormatBalance
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class ActivityAdapter(private val atividades: List<Activity>): RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
+class ActivityAdapter(private val atividades: MutableList<Activity>, private val onItemRemoved: () -> Unit): RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nome = itemView.findViewById<TextView>(R.id.textViewNameActivity)
-        val category = itemView.findViewById<TextView>(R.id.textViewTypeActivity)
-        val data = itemView.findViewById<TextView>(R.id.textViewDate)
-        val valor = itemView.findViewById<TextView>(R.id.textViewPriceActivity)
-        val signal = itemView.findViewById<TextView>(R.id.textViewPosNeg)
+        val nome: TextView = itemView.findViewById(R.id.textViewNameActivity)
+        val category: TextView = itemView.findViewById(R.id.textViewTypeActivity)
+        val data: TextView = itemView.findViewById(R.id.textViewDate)
+        val valor: TextView = itemView.findViewById(R.id.textViewPriceActivity)
+        val signal: TextView = itemView.findViewById(R.id.textViewPosNeg)
+
+        fun bind(activity: Activity) {
+            nome.text = activity.name
+            category.text = activity.category
+            data.text = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(activity.date)
+            valor.text = FormatBalance().format(activity.price)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,6 +49,18 @@ class ActivityAdapter(private val atividades: List<Activity>): RecyclerView.Adap
             holder.signal.setTextColor(holder.itemView.context.getColor(R.color.primary))
             holder.valor.setTextColor(holder.itemView.context.getColor(R.color.primary))
         }
+        val userController = UserController(holder.itemView.context)
+        holder.itemView.setOnLongClickListener{
+            holder.bind(atividades[position])
+            if (position != RecyclerView.NO_POSITION) {
+                userController.deleteActivity(atividades[position], holder.itemView.context)
+                atividades.removeAt(position)
+                notifyItemRemoved(position)
+                onItemRemoved()
+            }
+            true
+        }
+
     }
 
     override fun getItemCount() = atividades.size
