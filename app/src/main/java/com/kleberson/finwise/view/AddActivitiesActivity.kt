@@ -28,7 +28,7 @@ class AddActivitiesActivity: AppCompatActivity() {
 
         val userController = UserController(this)
 
-        val optionsTypeActivity = arrayOf("Alimentação", "Transporte", "Saúde", "Educação", "Lazer", "Casa", "Roupas", "Outros")
+        val optionsTypeActivity = arrayOf("Alimentação", "Transporte", "Saúde", "Educação", "Lazer", "Casa", "Roupas", "Investimentos", "Salario","Outros")
         val optionsSpentOrReceived = arrayOf("Gasto", "Recebido")
 
         val nameActivity = findViewById<EditText>(R.id.editTextNameActivity)

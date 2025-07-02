@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteOpenHelper
+import com.kleberson.finwise.model.Activity
 import com.kleberson.finwise.model.User
 import java.util.Date
 
 class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
     override fun onCreate(db: android.database.sqlite.SQLiteDatabase) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, contact TEXT, balance REAL DEFAULT 0.0)")
+        db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, contact TEXT, balance REAL DEFAULT 0.0, image BLOB)")
         db.execSQL("CREATE TABLE IF NOT EXISTS activities (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, type TEXT, price REAL, date TEXT, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))")
     }
 
@@ -105,5 +106,56 @@ class Db(context: Context): SQLiteOpenHelper(context, "finwise.db", null, 1) {
         }
         db.insert("activities", null, values)
         db.close()
+    }
+
+    @SuppressLint("Range")
+    fun getActivitiesByUser(id: Int): MutableList<Activity> {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM activities WHERE user_id = ?", arrayOf(id.toString()))
+        val activities = mutableListOf<Activity>()
+
+        if (cursor.moveToFirst()) {
+            do {
+                val idActivity = cursor.getInt(cursor.getColumnIndex("id"))
+                val name = cursor.getString(cursor.getColumnIndex("name"))
+                val category = cursor.getString(cursor.getColumnIndex("category"))
+                val type = cursor.getString(cursor.getColumnIndex("type"))
+                val price = cursor.getDouble(cursor.getColumnIndex("price"))
+                val date = Date(cursor.getString(cursor.getColumnIndex("date")))
+
+                activities.add(Activity(idActivity, name, category, type, price, date))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return activities
+    }
+
+    fun deleteActivity(activity: Activity) {
+        val db = writableDatabase
+        db.delete("activities", "id = ?", arrayOf(activity.id.toString()))
+        db.close()
+    }
+
+    fun saveUserImage(emailUser: String?, imageBytes: ByteArray) {
+        val db = writableDatabase
+        db.execSQL("UPDATE users SET image = ? WHERE email = ?", arrayOf(imageBytes, emailUser))
+        db.close()
+    }
+
+    @SuppressLint("Range")
+    fun getUserImage(emailUser: String): ByteArray? {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT image FROM users WHERE email = ?", arrayOf(emailUser))
+
+        return if (cursor.moveToFirst()) {
+            val imageBytes = cursor.getBlob(cursor.getColumnIndex("image"))
+            cursor.close()
+            db.close()
+            imageBytes
+        } else {
+            cursor.close()
+            db.close()
+            null
+        }
     }
 }
