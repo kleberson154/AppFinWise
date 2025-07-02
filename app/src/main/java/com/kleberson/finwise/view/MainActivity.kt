@@ -32,29 +32,15 @@ class MainActivity : AppCompatActivity() {
 
         val userController = UserController(this)
         val user = userController.getUserByEmail(this, emailUser)
+        val atividades = userController.getActivitiesUser(this, emailUser)
 
         val userName = findViewById<TextView>(R.id.textViewNameUser)
         val userBalance = findViewById<TextView>(R.id.textViewBalanceUser)
-        val formatBalance = FormatBalance()
-
-        userName.text = user.name
-        userBalance.text = formatBalance.format(user.balance)
-
-        val btnAddSaldo = findViewById<Button>(R.id.buttonAddSaldo)
-        val btnAddAtividade = findViewById<Button>(R.id.buttonAddAtividades)
-        val btnFinalizar = findViewById<Button>(R.id.buttonFinalizar)
-
-        val recycleActivities = findViewById<RecyclerView>(R.id.recycleAtividades)
-        recycleActivities.addItemDecoration(VerticalSpaceItemDecoration(16))
-        val atividades = userController.getActivitiesUser(this, emailUser)
-        val adapter = ActivityAdapter(atividades)
-        recycleActivities.layoutManager = LinearLayoutManager(this)
-        recycleActivities.adapter = adapter
-
         val imageGanhoPerda = findViewById<ImageView>(R.id.imageViewGanhoPerda)
         val textGanhoPerda = findViewById<TextView>(R.id.textViewGanhoPerda)
         val signalGanhoPerda = findViewById<TextView>(R.id.textViewSignalGanhoPerda)
         val valueGanhoPerda = findViewById<TextView>(R.id.textViewGanhoPerdaValue)
+        val formatBalance = FormatBalance()
 
         var valueAtividades = 0.0
 
@@ -66,7 +52,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        userName.text = user.name
         if (valueAtividades >= 0){
+            userBalance.text = formatBalance.format(user.balance + valueAtividades)
             imageGanhoPerda.setImageResource(R.drawable.arrowup)
             textGanhoPerda.text = "Lucros"
             signalGanhoPerda.text = "+$"
@@ -74,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             valueGanhoPerda.text = formatBalance.format(valueAtividades)
             valueGanhoPerda.setTextColor(resources.getColor(R.color.text_color))
         } else if (valueAtividades < 0) {
+            userBalance.text = formatBalance.format(user.balance - (valueAtividades * -1))
             imageGanhoPerda.setImageResource(R.drawable.arrowdown)
             textGanhoPerda.text = "Perdas"
             signalGanhoPerda.text = "-$"
@@ -82,7 +71,17 @@ class MainActivity : AppCompatActivity() {
             valueGanhoPerda.setTextColor(resources.getColor(R.color.negative))
         }
 
-        if (user.balance <= 0){
+        val btnAddSaldo = findViewById<Button>(R.id.buttonAddSaldo)
+        val btnAddAtividade = findViewById<Button>(R.id.buttonAddAtividades)
+        val btnFinalizar = findViewById<Button>(R.id.buttonFinalizar)
+
+        val recycleActivities = findViewById<RecyclerView>(R.id.recycleAtividades)
+        recycleActivities.addItemDecoration(VerticalSpaceItemDecoration(16))
+        val adapter = ActivityAdapter(atividades)
+        recycleActivities.layoutManager = LinearLayoutManager(this)
+        recycleActivities.adapter = adapter
+
+        if (user.balance == 0.0){
             btnAddSaldo.text = "Adicionar Saldo"
         }else {
             btnAddSaldo.text = "Atualizar Saldo"
