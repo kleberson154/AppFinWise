@@ -106,7 +106,7 @@
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textViewNameUser"
-        app:srcCompat="@drawable/arrowup" />
+        app:srcCompat="@drawable/iconsdinheiro" />
 
     <TextView
         android:id="@+id/textView14"
@@ -122,8 +122,8 @@
 
     <TextView
         android:id="@+id/textViewBalanceUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="28dp"
         android:text="0,00"
         android:textColor="@color/white"
         android:textSize="20sp"
