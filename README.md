@@ -1,10 +1,12 @@
 # App FinWise
 
+Algumas Funcionalidades:
+
+No FinWise você pode Criar sua Conta e fazer Login para adicionar seu Salário Mensal e então cadastrar suas atividades financeiras, sejam elas Gastos ou valores Recebidos que mostrara no final seu saldo atualizado e se você teve Lucro ou Perda no final do mês.
+
 ## Video do aplicativo: 
 
 https://github.com/user-attachments/assets/636cc9b7-e7bc-4cce-82e1-6caf9ef620a8
-
-
 
 ## Telas do App
 
